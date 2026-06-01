@@ -49,3 +49,29 @@ jobs:
           "pluginval.app/Contents/MacOS/pluginval" \
             --strictness-level 8 \
             --validate "build/TheArchaeologist_artefacts/Release/VST3/The Archaeologist.vst3"
+
+  windows:
+    name: Windows · build · test
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache build
+        uses: actions/cache@v4
+        with:
+          path: build
+          key: build-${{ runner.os }}-${{ hashFiles('CMakeLists.txt') }}
+          restore-keys: |
+            build-${{ runner.os }}-
+
+      # Visual Studio is a multi-config generator: CMAKE_BUILD_TYPE is ignored,
+      # so the config is selected at build/test time with --config / -C.
+      # (pluginval runs in the macOS job; this job is the MSVC portability gate.)
+      - name: Configure
+        run: cmake -B build
+
+      - name: Build
+        run: cmake --build build --config Release -j
+
+      - name: Unit tests
+        run: ctest --test-dir build -C Release --output-on-failure
