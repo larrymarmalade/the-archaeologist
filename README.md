@@ -18,6 +18,16 @@ Built with **JUCE 8 + CMake**, **C++20**, hard real-time-safe audio path,
 
 ---
 
+## Install (no building required)
+
+Grab the compiled **macOS universal** build (Apple Silicon + Intel) from the
+[latest release](https://github.com/larrymarmalade/the-archaeologist/releases/latest)
+— a `.dmg` (drag-to-install) or a `.zip`. Step-by-step instructions, a one-line
+installer, and the Gatekeeper note for this unsigned build are in
+**[INSTALL.md](INSTALL.md)**.
+
+---
+
 ## Build
 
 Requirements: CMake ≥ 3.22, a C++20 compiler (Xcode/clang on macOS, MSVC 2022 on
