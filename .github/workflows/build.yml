@@ -1,0 +1,51 @@
+name: build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  macos:
+    name: macOS · build · test · pluginval
+    runs-on: macos-14          # Apple silicon runner
+    steps:
+      - uses: actions/checkout@v4
+
+      # Cache the whole build dir (FetchContent'd JUCE source + compiled objects)
+      # so subsequent runs are fast incremental builds. CMake handles staleness.
+      - name: Cache build
+        uses: actions/cache@v4
+        with:
+          path: build
+          key: build-${{ runner.os }}-${{ hashFiles('CMakeLists.txt') }}
+          restore-keys: |
+            build-${{ runner.os }}-
+
+      # JUCE is fetched via FetchContent (pinned in CMakeLists). Native arm64
+      # here for fast feedback; the release default is universal (arm64+x86_64).
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=arm64
+
+      - name: Build
+        run: cmake --build build -j
+
+      - name: Unit tests
+        run: ctest --test-dir build --output-on-failure
+
+      - name: Download pluginval
+        run: |
+          curl -sSL -o pluginval.zip \
+            https://github.com/Tracktion/pluginval/releases/download/v1.0.4/pluginval_macOS.zip
+          unzip -q pluginval.zip
+
+      - name: Validate VST3 (pluginval, strictness 8)
+        run: |
+          "pluginval.app/Contents/MacOS/pluginval" \
+            --strictness-level 8 \
+            --validate "build/TheArchaeologist_artefacts/Release/VST3/The Archaeologist.vst3"

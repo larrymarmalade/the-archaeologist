@@ -17,7 +17,7 @@ Built with **JUCE 8 + CMake**, **C++20**, hard real-time-safe audio path,
 ## Build
 
 Requirements: CMake ≥ 3.22, a C++20 compiler (Xcode/clang on macOS, MSVC 2022 on
-Windows). JUCE is fetched automatically (pinned tag `8.0.4`).
+Windows). JUCE is fetched automatically (pinned tag `8.0.13`).
 
 ```bash
 # from the repository root

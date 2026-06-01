@@ -2,9 +2,9 @@
 
 ## JUCE
 * **JUCE 8** (https://github.com/juce-framework/JUCE). By default CMake fetches
-  it via FetchContent pinned to tag `8.0.4`; pass `-DARCH_USE_LOCAL_JUCE=ON
-  -DJUCE_SOURCE_DIR=...` to build against a local checkout instead. The current
-  builds were compiled and validated against a local JUCE **8.0.13**.
+  it via FetchContent pinned to tag `8.0.13`; pass `-DARCH_USE_LOCAL_JUCE=ON
+  -DJUCE_SOURCE_DIR=...` to build against a local checkout instead. Builds were
+  compiled and validated against JUCE **8.0.13** (the pinned tag).
 * License: JUCE is dual-licensed (GPLv3 / commercial). This project as written
   is GPL-compatible; **if you ship a closed-source binary you need a JUCE
   commercial licence.** The build does **not** define `JUCE_DISPLAY_SPLASH_SCREEN`
