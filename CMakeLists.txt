@@ -124,3 +124,21 @@ if(ARCH_BUILD_TESTS)
     target_compile_features(arch_tests PRIVATE cxx_std_20)
     add_test(NAME arch_tests COMMAND arch_tests)
 endif()
+
+# ── Offline tools (off by default; not built by CI) ──────────────────────────
+# Renders the real ArchiveMapComponent to a PNG for the README hero image:
+#   cmake -B build -DARCH_BUILD_TOOLS=ON … && cmake --build build --target arch_render_map
+option(ARCH_BUILD_TOOLS "Build offline tools (UI image renderer)" OFF)
+if(ARCH_BUILD_TOOLS)
+    juce_add_console_app(arch_render_map PRODUCT_NAME "arch_render_map")
+    juce_generate_juce_header(arch_render_map)
+    target_sources(arch_render_map PRIVATE
+        tools/RenderArchiveMap.cpp
+        source/ui/ArchiveMapComponent.cpp)
+    target_include_directories(arch_render_map PRIVATE source)
+    target_compile_features(arch_render_map PRIVATE cxx_std_20)
+    target_link_libraries(arch_render_map PRIVATE
+        juce::juce_gui_basics
+        juce::juce_graphics
+        juce::juce_recommended_config_flags)
+endif()

@@ -2,6 +2,10 @@
 
 *A generative resampler / memory instrument. The session haunts itself.*
 
+![The Archive Map — captured artifacts as spectral stones; family by colour, age left-to-right, surfacing memories glowing amber](docs/archive-map.png)
+
+<sub>The **Archive Map** (rendered from the live UI via `tools/RenderArchiveMap.cpp`): each glyph is a captured gesture — colour = family, horizontal position = age, size = loudness; excavated memories glow and drift upward.</sub>
+
 The Archaeologist continuously listens to your playing, stores recent gestures
 in a rolling private archive, analyses them, and later **excavates** fragments
 as degraded, transformed, musically sensitive memory objects. It is not a
